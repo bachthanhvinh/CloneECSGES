@@ -1,17 +1,5 @@
 import { useState, useEffect } from "react";
-
-const slidesData = [
-  {
-    id: 1,
-    img: "https://ecs.edu.vn/wp-content/uploads/2026/08/hero-banner.jpg",
-    caption: "Caption Text 1",
-  },
-  {
-    id: 2,
-    img: "https://ecs.edu.vn/wp-content/uploads/2026/08/Anh-web-1.jpg",
-    caption: "Caption Two 2",
-  },
-];
+import { slidesData } from "../../../apis/mock-data";
 
 export const SlideBg = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -39,7 +27,7 @@ export const SlideBg = () => {
 
   return (
     <section className="relative w-full max-w-full overflow-hidden group  shadow-lg">
-      <div className="relative w-full">
+      <div className="relative w-full ">
         <img
           src={slidesData[currentIndex].img}
           alt={slidesData[currentIndex].caption}
