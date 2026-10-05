@@ -2,7 +2,7 @@
 
 @theme {
   --color-text-main: #6b6375;
-  --color-text-heading: #08060d;
+  /* --color-text-heading: #08060d; */
   --color-bg-main: #ffffff;
   --color-border-main: #e5e4e7;
   --color-code-bg: #f4f3ec;
@@ -18,7 +18,7 @@
 @media (prefers-color-scheme: dark) {
   @theme {
     --color-text-main: #9ca3af;
-    --color-text-heading: #f3f4f6;
+    /* --color-text-heading: #f3f4f6; */
     --color-bg-main: #ffffff;
     --color-border-main: #2e303a;
     --color-code-bg: #1f2028;
@@ -45,21 +45,10 @@
       font-size: 16px;
     }
   }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-heading);
-    color: var(--color-text-heading);
-  }
 }
 
 #root {
   width: 100%;
-  max-width: 1126px;
   min-height: 100svh;
   margin-inline: auto;
   border-inline: 1px solid var(--color-border-main);
