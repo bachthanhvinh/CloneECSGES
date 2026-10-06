@@ -1,11 +1,9 @@
-
 import { GiStairsGoal } from "react-icons/gi";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import { FaHandsHolding } from "react-icons/fa6";
 import { MdOutlineWorkOutline } from "react-icons/md";
 import { TbSpeakerphone } from "react-icons/tb";
 import type { ReactNode } from "react";
-
 
 // ==================== SLIDER ====================
 
@@ -27,8 +25,6 @@ export const slidesData: Slide[] = [
     caption: "Caption Two 2",
   },
 ];
-
-
 
 export type Category = {
   id: number;
@@ -87,5 +83,57 @@ export const categories: Category[] = [
       "https://ecs.edu.vn/wp-content/themes/ecsges/assets/img/he-sinh-thai/truyen-thong.png?ver=1784972611",
     description:
       "ECSGES cung cấp các giải pháp truyền thông toàn diện cho lĩnh vực giáo dục, góp phần nâng cao hình ảnh thương hiệu, tăng cường kết nối với người học và mở rộng sức ảnh hưởng tới cộng đồng. Chúng tôi kết hợp giữa truyền thông hiện đại và tổ chức sự kiện để tạo nên những chiến dịch hiệu quả và bền vững.",
+  },
+];
+
+export type News = {
+  id: number;
+  category: string;
+  title: string;
+  description: string;
+  date: string;
+  image: string;
+  content: string;
+};
+
+export const newsData: News[] = [
+  {
+    id: 1,
+    category: "VỀ ECSGES",
+    title: "Thông báo lịch nghỉ lễ Quốc khánh 02/9 năm 2026",
+    description:
+      "Kính gửi: Quý Đối tác, Quý Khách hàng và toàn thể cán bộ nhân viên ECSGES, Nhân...",
+    date: "20/08/2026",
+    image:
+      "https://ecs.edu.vn/wp-content/uploads/2026/08/Thong-bao-lich-nghi-le-Quoc-khanh-02-9-nam-2026-768x459.png",
+    content:
+      "ECSGES trân trọng thông báo đến Quý Đối tác, Quý Khách hàng và toàn thể cán bộ nhân viên về lịch nghỉ lễ Quốc khánh 02/9 năm 2026.",
+  },
+
+  {
+    id: 2,
+    category: "HƯỚNG NGHIỆP",
+    title: "Giới thiệu dịch vụ Hướng nghiệp",
+    description:
+      "ECSGES phát triển dịch vụ hướng nghiệp toàn diện, đồng hành cùng người học từ...",
+    date: "11/08/2026",
+    image:
+      "https://ecs.edu.vn/wp-content/uploads/2026/08/Doi-ngu-tu-van-truc-tiep-giai-dap-nhung-ban-khoan-cua-thi-sinh-ve-nganh-hoc-nghe-nghiep-va-dinh-huong-sau-THPT-giup-hoc-sinh-co-them-co-so-de-lua-chon-nganh-hoc-phu-hop-768x512.jpg",
+    content:
+      "ECSGES phát triển dịch vụ hướng nghiệp toàn diện, đồng hành cùng người học trong quá trình khám phá bản thân, định hướng nghề nghiệp và xây dựng lộ trình phát triển phù hợp.",
+  },
+
+  {
+    id: 3,
+    category: "ĐÀO TẠO",
+    title:
+      "Trường Cao đẳng Bách Khoa tổng kết năm học 2025 – 2026, định hướng nhiệm vụ năm học 2026 – 2027",
+    description:
+      "Năm học 2025 – 2026 khép lại với nhiều kết quả đáng ghi nhận trong công tác đào...",
+    date: "02/08/2026",
+    image:
+      "https://ecs.edu.vn/wp-content/uploads/2026/08/Thay-Nguyen-Van-Truong-Chu-tich-Hoi-dong-quan-tri-Pho-Hieu-truong-nha-truong-chia-se-thong-diep-Tri-an-Doi-moi-Khat-vong-768x512.jpg",
+    content:
+      "Trường Cao đẳng Bách Khoa tổ chức tổng kết năm học 2025 – 2026 và triển khai phương hướng nhiệm vụ năm học mới.",
   },
 ];

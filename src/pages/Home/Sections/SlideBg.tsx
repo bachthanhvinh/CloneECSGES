@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { slidesData } from "../../../apis/mock-data";
+import { slidesData } from "../../../apis/data";
 
 export const SlideBg = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);

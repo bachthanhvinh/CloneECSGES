@@ -1,6 +1,6 @@
-import { useState, type ReactNode } from "react";
+import { useState } from "react";
 
-import { categories } from "../../../apis/mock-data";
+import { categories } from "../../../apis/data";
 
 const Ecosystem = () => {
   const [activeIndex, setActiveIndex] = useState(0);

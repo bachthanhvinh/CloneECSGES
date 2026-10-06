@@ -1,6 +1,6 @@
 import { StrictMode } from "react";
 import { RouterProvider } from "react-router";
-import router from "./routers";
+import router from "./routes";
 import { createRoot } from "react-dom/client";
 import "./styles/golobals.css";
 
