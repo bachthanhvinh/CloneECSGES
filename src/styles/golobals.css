@@ -56,3 +56,6 @@
   flex-direction: column;
   box-sizing: border-box;
 }
+html {
+  scroll-behavior: smooth;
+}

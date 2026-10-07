@@ -1,8 +1,13 @@
+import PageHeroC from "../../components/ui/PageHero";
+import FieldOfActivity from "./Sections/FieldOfActivity";
 
 const index = () => {
   return (
-    <div>index</div>
-  )
-}
+    <div>
+      <PageHeroC name={"LĨNH VỰC HOẠT ĐỘNG"} />
+      <FieldOfActivity />
+    </div>
+  );
+};
 
-export default index
+export default index;
