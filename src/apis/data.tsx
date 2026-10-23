@@ -5,8 +5,6 @@ import { MdOutlineWorkOutline } from "react-icons/md";
 import { TbSpeakerphone } from "react-icons/tb";
 import type { ReactNode } from "react";
 
-// ==================== SLIDER ====================
-
 export type Slide = {
   id: number;
   img: string;

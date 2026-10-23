@@ -36,16 +36,16 @@ const Person: React.FC<PersonProps> = ({
               }`}
             >
               <div
-                className={`absolute inset-0 bg-[#f26522] transition-transform duration-500 ease-in-out pointer-events-none -z-0 ${
+                className={`absolute inset-0 bg-[#f26522] transition-transform duration-500 ease-in-out pointer-events-none z-0 ${
                   item.isHighlight
                     ? "translate-y-0"
                     : "-translate-y-full group-hover:translate-y-0"
                 }`}
-              />
+              />  
 
               <div className="relative z-10">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-10 h-20 flex-shrink-0 flex items-center justify-center rounded-4xl">
+                  <div className="w-10 h-20 shrink-0 flex items-center justify-center rounded-4xl">
                     <img
                       src={item.icon}
                       alt={item.title}

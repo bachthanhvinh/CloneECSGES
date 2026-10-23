@@ -29,6 +29,13 @@ const router = createBrowserRouter([
           ...appRoutes.map(mapToRouteObject),
 
           {
+            path: "/:slug",
+            lazy: async () => {
+              const module = await import("../pages/News/ArticleDetail");
+              return { Component: module.default };
+            },
+          },
+          {
             path: "*",
             lazy: async () => {
               const module = await import("../pages/NotFound");
