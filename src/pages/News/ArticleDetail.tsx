@@ -1,47 +1,77 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import type { Article, Category } from "./Sections/listNew";
 import { fetchGetArticles, fetchListCategories } from "../../apis";
-import { useParams, Link } from "react-router"; // Bổ sung import Link
+import { useParams, Link } from "react-router";
+import DOMPurify from "dompurify";
+
+const dateFormatter = new Intl.DateTimeFormat("vi-VN");
 
 const ArticleDetail = () => {
   const { slug } = useParams();
   const [articles, setArticles] = useState<Article[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
+
     const fetchData = async () => {
       try {
-        if (slug) {
-          setIsLoading(true);
-          const [resultCat, resultArt] = await Promise.all([
-            fetchListCategories(),
-            fetchGetArticles(),
-          ]);
+        setIsLoading(true);
+        setError(null);
+
+        const [resultCat, resultArt] = await Promise.all([
+          fetchListCategories(),
+          fetchGetArticles(),
+        ]);
+
+        if (!cancelled) {
           setArticles(resultArt);
           setCategories(resultCat);
         }
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        if (!cancelled) {
+          console.error(err);
+          setError("Không thể tải bài viết. Vui lòng thử lại sau.");
+        }
       } finally {
-        setIsLoading(false);
+        if (!cancelled) setIsLoading(false);
       }
     };
 
     fetchData();
-  }, [slug]);
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
-  // LOGIC CỦA BẠN: Rất tốt
-  const findSlugArt = articles.find((item) => item.slug === slug);
-  const findTitleCat = categories.find(
-    (item) => item.id === findSlugArt?.category_id,
+  const findSlugArt = useMemo(
+    () => articles.find((item) => item.slug === slug),
+    [articles, slug],
   );
 
-  const sidebarArticles = articles
-    .filter((item) => item.slug !== slug)
-    .slice(0, 4);
+  const findTitleCat = useMemo(
+    () => categories.find((item) => item.id === findSlugArt?.category_id),
+    [categories, findSlugArt?.category_id],
+  );
+
+  const categoryMap = useMemo(
+    () => new Map(categories.map((c) => [c.id, c])),
+    [categories],
+  );
+
+  const sidebarArticles = useMemo(
+    () => articles.filter((item) => item.slug !== slug).slice(0, 4),
+    [articles, slug],
+  );
+
+  const content = findSlugArt?.content ?? "";
+  const clean = useMemo(() => DOMPurify.sanitize(content), [content]);
 
   if (isLoading) return <div className="text-center py-10">Đang tải...</div>;
+  if (error)
+    return <div className="text-center py-10 text-red-500">{error}</div>;
   if (!findSlugArt)
     return <div className="text-center py-10">Không tìm thấy bài viết!</div>;
 
@@ -66,7 +96,7 @@ const ArticleDetail = () => {
           <li className="text-gray-400">›</li>
           <li>
             <Link
-              to={`/tin-tuc#${findTitleCat?.slug}`}
+              to={`/tin-tuc#${findTitleCat?.slug ?? ""}`}
               className="hover:text-[#f05123] transition-colors"
             >
               {findTitleCat?.name || "Tin tức"}
@@ -85,13 +115,23 @@ const ArticleDetail = () => {
             {findSlugArt.title}
           </h1>
           <p className="text-gray-500 mb-6 pb-4 border-b">
-            Ngày đăng:{" "}
-            {new Date(findSlugArt.created_at).toLocaleDateString("vi-VN")}
+            Ngày đăng: {dateFormatter.format(new Date(findSlugArt.created_at))}
           </p>
 
           <div
-            className="prose prose-lg max-w-none text-gray-800"
-            dangerouslySetInnerHTML={{ __html: findSlugArt.content }}
+            className="text-gray-800 leading-7 text-base
+              [&_p]:mb-4
+              [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:mt-8 [&_h1]:mb-3
+              [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-3
+              [&_h3]:text-xl [&_h3]:font-bold [&_h3]:mt-6 [&_h3]:mb-2
+              [&_ul]:list-disc [&_ul]:pl-6 [&_ul]:mb-4
+              [&_ol]:list-decimal [&_ol]:pl-6 [&_ol]:mb-4
+              [&_li]:my-1
+              [&_blockquote]:border-l-4 [&_blockquote]:border-gray-300 [&_blockquote]:pl-4 [&_blockquote]:italic
+              [&_a]:text-indigo-600 [&_a]:underline
+              [&_img]:block [&_img]:max-w-full [&_img]:h-auto [&_img]:rounded-lg [&_img]:my-6 [&_img]:mx-auto
+              [&_img[data-align=left]]:mx-0 [&_img[data-align=right]]:ml-auto [&_img[data-align=right]]:mr-0"
+            dangerouslySetInnerHTML={{ __html: clean }}
           />
         </div>
 
@@ -110,14 +150,14 @@ const ArticleDetail = () => {
                     <img
                       src={item.thumbnail_url || "https://placehold.co/400x250"}
                       alt={item.title}
+                      loading="lazy"
                       className="w-full h-40 object-cover transform group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
                 </Link>
 
                 <span className="text-gray-400 text-xs uppercase mb-1 block font-medium">
-                  {categories.find((cat) => cat.id === item.category_id)
-                    ?.name || "Tin tức"}
+                  {categoryMap.get(item.category_id)?.name || "Tin tức"}
                 </span>
 
                 <Link to={`/${item.slug}`}>
@@ -127,7 +167,7 @@ const ArticleDetail = () => {
                 </Link>
 
                 <span className="text-gray-400 text-xs">
-                  {new Date(item.created_at).toLocaleDateString("vi-VN")}
+                  {dateFormatter.format(new Date(item.created_at))}
                 </span>
               </div>
             ))}

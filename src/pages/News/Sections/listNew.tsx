@@ -73,15 +73,17 @@ const ListNew = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
       <nav className="flex flex-wrap justify-center gap-8 mb-12 border-b pb-4">
-        {categories.map((category) => (
-          <a
-            key={category.id}
-            href={`#${category.slug}`}
-            className="text-gray-500 hover:text-orange-500 text-lg transition-colors"
-          >
-            {category.name}
-          </a>
-        ))}
+        {categories.slice(0, 6).map((category) => {
+          return (
+            <a
+              key={category.id}
+              href={`${category.slug}`}
+              className="text-gray-500 hover:text-orange-500 text-lg transition-colors"
+            >
+              {category.name}
+            </a>
+          );
+        })}
       </nav>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
